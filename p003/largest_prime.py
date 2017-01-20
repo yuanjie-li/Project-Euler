@@ -10,6 +10,8 @@ The prime factors of 13195 are 5, 7, 13 and 29.
 What is the largest prime factor of the number 600851475143 ?
 
 """
+# Arr of primes under 5
+PrimeArr = [2, 3]
 
 def main():
 
@@ -32,10 +34,13 @@ def main():
   print Remaining
 
 # Helper to determine if a number is prime
-def isPrime(i):
-  for Factor in range(2, i / 2 + 1):
-    if i % Factor == 0:
+def isPrime(Num):
+  for Factor in PrimeArr:
+    if Num % Factor == 0:
       return False
+    elif Factor ** 2 > Num:
+      break
+  PrimeArr.append(Num)
   return True
 
 if __name__ == "__main__":
