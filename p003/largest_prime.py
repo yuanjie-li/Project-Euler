@@ -33,7 +33,7 @@ def main():
 
 # Helper to determine if a number is prime
 def isPrime(i):
-  for Factor in range(2, i / 2):
+  for Factor in range(2, i / 2 + 1):
     if i % Factor == 0:
       return False
   return True
