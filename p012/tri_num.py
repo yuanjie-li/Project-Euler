@@ -23,50 +23,29 @@ What is the value of the first triangle number to have over five hundred
 divisors?
 
 """
-PrimeArr=[2,3,5,7,11,13,17,19]
-DivArr = []
+PrimeArr=[2, 3, 5, 7]
 # Tri Num with 2 divisors
-Num = 1 + 2
+tri = 28
+num = 8
 
 def main():
-    global DivArr, PrimeArr, Num
-    counter = 2
-    PrimeExp = []
-    while 1:
-        DivCnt = 0
-        for Exp in PrimeExp:
-            DivCnt += Exp
-        if 1 + DivCnt > 500:
-            print PrimeExp
-            print DivArr
-            print "Solution: " + str(Num)
-            break
-        # Get the next number
-        counter += 1
-        Num += counter
-        DivArr = []
-        if counter % 10000 == 0:
-            print counter
-        # Check to see if prime
-        if not isPrime(Num):
-            # Iterate through list of primes to build up prime factors
-            i = 0
-            for i in range(0, len(PrimeArr)):
-                if Num % PrimeArr[i] == 0:
-                    DivArr.append(PrimeArr[i])
-                elif PrimeArr[i] ** 2 > Num:
-                    break
+    global num, tri
 
-            # Iterate through and calculate how many of each factor exists
-            PrimeExp = []
-            for divisor in DivArr:
-                CheckNum = Num
-                ExpCnt = 1
-                while CheckNum % divisor == 0 and CheckNum > 1:
-                    ExpCnt += 1
-                    CheckNum /= divisor
-                PrimeExp.append(ExpCnt)
+    num_divs = 5
+    # Keep going until you find at least 500 divisors
+    while num_divs <= 500:
+        # Calculate next tri number
+        tri += num
+        num += 1
 
+        # Get all primes up to this point
+        if (isPrime(tri)):
+            pass
+        else:
+            # Get the number of divisors
+            num_divs = get_divs(tri)
+
+    print(tri)
 
 # Helper to determine if a number is prime
 def isPrime(Num):
@@ -74,11 +53,28 @@ def isPrime(Num):
     for Factor in PrimeArr:
       if Num % Factor == 0:
         return False
-      elif Factor ** 2 > Num:
-        break
-    if (Num > PrimeArr[-1]):
-        PrimeArr.append(Num)
+    PrimeArr.append(Num)
+    print(PrimeArr)
     return True
+
+# Get prime factorization, which means duplicates and all that
+# Then apply the formula for calculating combinations
+def get_divs(i):
+    div_dic = {}
+    for prime in PrimeArr:
+        while i % prime == 0:
+            i /= prime
+            if prime not in div_dic:
+                div_dic[prime] = 1
+            else:
+                div_dic[prime] += 1
+    total = 1
+    for key in div_dic:
+        print(div_dic)
+        total *= div_dic[key] + 1
+    print(total)
+    return total
 
 if __name__ == "__main__":
   main()
+
