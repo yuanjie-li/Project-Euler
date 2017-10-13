@@ -23,7 +23,7 @@ What is the value of the first triangle number to have over five hundred
 divisors?
 
 """
-PrimeArr=[2, 3, 5, 7]
+
 # Tri Num with 2 divisors
 tri = 28
 num = 8
@@ -31,48 +31,64 @@ num = 8
 def main():
     global num, tri
 
-    num_divs = 5
+    # Set up the prime array
+    primeArr=[2, 3, 5, 7]
+    for i in range(8, 29):
+        if(isPrime(i, primeArr)):
+            primeArr.append(i)
+
+    num_divs = 4
     # Keep going until you find at least 500 divisors
     while num_divs <= 500:
+
+        # Update the prime array from current tri num to next tri num
+        start = tri
+        if start % 2 == 0:
+            start += 1
+        end = tri + num + 1
+        for i in xrange(start, end, 2):
+            if(isPrime(i, primeArr)):
+                primeArr.append(i)
+
         # Calculate next tri number
         tri += num
         num += 1
 
-        # Get all primes up to this point
-        if (isPrime(tri)):
+        if (isPrime(tri, primeArr)):
             pass
         else:
             # Get the number of divisors
-            num_divs = get_divs(tri)
+            new_divs = get_divs(tri, primeArr)
+            if new_divs > num_divs:
+                num_divs = new_divs
+                print("Best is now " + str(num_divs))
 
     print(tri)
 
 # Helper to determine if a number is prime
-def isPrime(Num):
-    global PrimeArr
-    for Factor in PrimeArr:
-      if Num % Factor == 0:
+def isPrime(num, primeArr):
+    for prime in primeArr:
+      if num % prime == 0:
         return False
-    PrimeArr.append(Num)
-    print(PrimeArr)
+      elif num ** 2 >= prime:
+          break
     return True
 
 # Get prime factorization, which means duplicates and all that
 # Then apply the formula for calculating combinations
-def get_divs(i):
+def get_divs(num, primeArr):
     div_dic = {}
-    for prime in PrimeArr:
-        while i % prime == 0:
-            i /= prime
-            if prime not in div_dic:
-                div_dic[prime] = 1
-            else:
-                div_dic[prime] += 1
+    for prime in primeArr:
+        div_dic[prime] = 0
+        while num % prime == 0:
+            num /= prime
+            div_dic[prime] += 1
+        if num < 2:
+            break
+
     total = 1
     for key in div_dic:
-        print(div_dic)
         total *= div_dic[key] + 1
-    print(total)
     return total
 
 if __name__ == "__main__":
