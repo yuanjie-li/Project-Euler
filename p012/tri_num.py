@@ -24,6 +24,7 @@ divisors?
 
 """
 PrimeArr=[2, 3, 5, 7]
+
 # Tri Num with 2 divisors
 tri = 28
 num = 8
