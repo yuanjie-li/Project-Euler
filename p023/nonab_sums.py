@@ -34,9 +34,10 @@ import utils
 def main():
 
     output = 0
-    abNums = [] # Array of abundant numbers
+    upper = 28124 # Upper bound as defined above
+    abNums = []   # Array of abundant numbers
 
-    for i in xrange(1, 28123 - 12): # Upper bound defined by problem
+    for i in xrange(12, upper):
         divs = utils.getDivs(i)
         if sum(divs[:-1]) > i:
             abNums.append(i)
@@ -47,20 +48,16 @@ def main():
     # Generate a list of all abnum sums. It's gonna be large.
     abSums = []
     for i in xrange(len(abNums)):
-        if abNums[i] >= 28123 - 12:
-            break
         for j in xrange(i, len(abNums)):
-            if abNums[i] + abNums[j] > 28123:
+            if abNums[i] + abNums[j] > upper:
                 break
             abSums.append(abNums[i] + abNums[j])
 
     abSums = sorted(list(set(abSums)))
-    print("Sums generated.")
+    print(len(abSums)),
+    print("sums generated.")
 
-    for i in range(1, 28123):
-        # Ticker
-        if i % 1000 == 0:
-            print(i)
+    for i in range(1, upper):
         if i not in abSums:
             output += i
 
