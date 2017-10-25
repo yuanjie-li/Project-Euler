@@ -20,58 +20,24 @@ The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
 Evaluate the sum of all the amicable numbers under 10000.
 
 """
-# Helper to generate a primes arr
-def isPrime(num, primeArr):
-    for prime in primeArr:
-        if num % prime == 0:
-            return False
-        elif num ** 0.5 <= prime:
-            break
-    return True
 
-# Helper to sum up the factors and stuff
-def sumDivs(num, primeArr):
-
-    divArr = [num]
-    output = 1
-
-    # Get all the prime factors
-    for prime in primeArr:
-        if num % prime == 0 and num != prime:
-            divArr.append(prime)
-
-    return output
+import sys
+sys.path.insert(0, '../utils')
+import utils
 
 def main():
-
-    primeArr = [2, 3, 5, 7, 11]
-    # Make the primes arr real quick.
-    for i in xrange(13,10000,2):
-        if isPrime(i,primeArr):
-            primeArr.append(i)
-    print("Primes array generated. " + str(len(primeArr)) +
-            " primes found.")
-
     output = 0
-    pairs = [] # list of stuff to skip
 
-    print(sumDivs(220, primeArr))
-    print(sumDivs(284, primeArr))
-
-    """
-    for i in xrange(5,285):
-        if i in pairs:
+    for i in range(1, 10000):
+        divs = utils.getDivs(i)
+        divSum = sum(divs[:-1])
+        if divSum == i:
+            # Ignore cases where it sums to itself
             pass
-
-        divSum = sumDivs(i, primeArr)
-        pair = sumDivs(divSum, primeArr)
-        if pair >= 10000:
-            pass
-        elif divSum == pair:
-            print("found a pair : " + str(divSum) + " " + str(pair))
-            pairs.append(pair)
-            output += divSum + pair
-    """
+        elif i == sum(utils.getDivs(divSum)[:-1]):
+            # Only i is added, because its counterpart will be calculated
+            # again later on.
+            output += i
 
     print(output)
 
