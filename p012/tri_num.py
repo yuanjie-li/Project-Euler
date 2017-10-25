@@ -26,72 +26,31 @@ divisors?
 
 """
 
+import sys
+sys.path.insert(0, '../utils')
+import utils
+
 # Tri Num with 2 divisors
-tri = 28
-num = 8
 
 def main():
-    global num, tri
 
-    # Set up the prime array
-    primeArr=[2, 3, 5, 7]
-    for i in range(8, 29):
-        if(isPrime(i, primeArr)):
-            primeArr.append(i)
+    tri = 1
+    num = 1
+    num_divs = 1
 
-    num_divs = 4
     # Keep going until you find at least 500 divisors
     while num_divs <= 500:
-
-        # Update the prime array from current tri num to next tri num
-        start = tri
-        if start % 2 == 0:
-            start += 1
-        end = tri + num + 1
-        for i in xrange(start, end, 2):
-            if(isPrime(i, primeArr)):
-                primeArr.append(i)
-
         # Calculate next tri number
         tri += num
         num += 1
 
-        if (isPrime(tri, primeArr)):
-            pass
-        else:
-            # Get the number of divisors
-            new_divs = get_divs(tri, primeArr)
-            if new_divs > num_divs:
-                num_divs = new_divs
-                print("Best is now " + str(num_divs))
+        # Get the number of divisors
+        new_divs = len(utils.getDivs(tri))
+        if new_divs > num_divs:
+            num_divs = new_divs
+            print("Best is now " + str(tri) + " with " + str(num_divs))
 
     print(tri)
-
-# Helper to determine if a number is prime
-def isPrime(num, primeArr):
-    for prime in primeArr:
-      if num % prime == 0:
-        return False
-      elif num ** 2 >= prime:
-          break
-    return True
-
-# Get prime factorization, which means duplicates and all that
-# Then apply the formula for calculating combinations
-def get_divs(num, primeArr):
-    div_dic = {}
-    for prime in primeArr:
-        div_dic[prime] = 0
-        while num % prime == 0:
-            num /= prime
-            div_dic[prime] += 1
-        if num < 2:
-            break
-
-    total = 1
-    for key in div_dic:
-        total *= div_dic[key] + 1
-    return total
 
 if __name__ == "__main__":
   main()
