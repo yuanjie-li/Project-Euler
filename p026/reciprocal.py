@@ -32,7 +32,7 @@ def main():
 
     output = 0 # Minimum it's 1/3
     numer = Decimal(1)
-    getcontext().prec = 4000
+    getcontext().prec = 2000
 
     for num in range(3,1000,2): # only care about evens
         print("Number : "),
@@ -58,7 +58,7 @@ def main():
                                 print(denom)
                                 print(subfrac[:i])
                                 print(subfrac[i:j])
-                                output = j-i
+                                output = denom
                             break
                     else:
                         continue
