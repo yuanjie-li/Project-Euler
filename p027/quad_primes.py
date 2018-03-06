@@ -39,28 +39,34 @@ def quad(n, a, b):
     return n**2 + a * n + b
 
 def main():
-    a = 0
+    limit = 100000
+    a = -999
     b = -1000
     best = 0
     prod = a * b
 
     # Get a prime array of 10,000 primes
     print("Generating prime array...")
-    primeArr = utils.getPrimeArr(100000)
+    primeArr = utils.getPrimeArr(limit)
     print("Done.")
+
+    # Reduce access time of prime array
+    isPrime = [False] * limit
+    for prime in primeArr:
+        isPrime[prime] = True
 
     # Iterate
     print("Beginning iterations...")
-    while a <= 1000:
+    while a < 1000:
         b = -1000
         while b <= 1000:
             # Only care about cases where b is prime, since 0^2 + a * 0 + b
             # must be prime.
-            if math.fabs(b) in primeArr:
+            if isPrime[int(math.fabs(b))]:
                 n = 0
                 count = 0
 
-                while math.fabs(quad(n,a,b)) in primeArr:
+                while isPrime[int(math.fabs(quad(n,a,b)))]:
                     count += 1
                     n += 1
 
