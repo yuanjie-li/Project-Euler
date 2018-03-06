@@ -17,27 +17,14 @@ What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4,
 5, 6, 7, 8 and 9?
 
 """
-
-def permute(num):
-    # Recursive?  Recursive.
-    # Base case
-    if len(num) <= 1:
-        return [num]
-
-    perms = []
-    for digit in num:
-        reducedNum = list(num)
-        reducedNum.remove(digit)
-
-        for perm in permute(reducedNum):
-            perms.append([str(digit)] + perm)
-
-    return perms
+import sys
+sys.path.append('../utils')
+import utils
 
 def main():
     num = ["0","1","2","3","4","5","6","7","8","9"]
     print("Generating permutations.  Please wait ...")
-    perms = permute(num)
+    perms = utils.permute(num)
     print("Permutations generated.  There are "),
     print(len(perms)),
     print(" permutations.")

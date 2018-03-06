@@ -34,31 +34,33 @@ import utils
 def main():
 
     output = 0
-    upper = 28124 # Upper bound as defined above
+    upper = 28123 # Upper bound as defined above
     abNums = []   # Array of abundant numbers
 
-    for i in xrange(12, upper):
+    for i in xrange(2, upper):
         divs = utils.getDivs(i)
         if sum(divs[:-1]) > i:
             abNums.append(i)
-
-    abNums = sorted(list(set(abNums)))
     print(str(len(abNums)) + " abundant numbers found.")
 
     # Generate a list of all abnum sums. It's gonna be large.
-    abSums = []
+    abSums = [False] * (upper + 1) # 0 indexed
     for i in xrange(len(abNums)):
+        # Early stop
+        if abNums[i] > upper / 2:
+            break
         for j in xrange(i, len(abNums)):
-            if abNums[i] + abNums[j] > upper:
+            num = abNums[i] + abNums[j]
+            # Early stop
+            if num > upper:
                 break
-            abSums.append(abNums[i] + abNums[j])
+            abSums[num] = True
 
-    abSums = sorted(list(set(abSums)))
-    print(len(abSums)),
+    print(sum(abSums)),
     print("sums generated.")
 
-    for i in range(1, upper):
-        if i not in abSums:
+    for i, abSum in enumerate(abSums):
+        if not abSum:
             output += i
 
     print(output)

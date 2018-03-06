@@ -8,20 +8,37 @@ import math
 
 # Get all primes up to n, inclusive
 def getPrimeArr(n):
+
     # Sieve of Eratosthenes
-    numArr = [x+1 for x in xrange(1,n)]
-    notPrimes = []
-    primeArr = []
+    numArr =[2]
+    for num in range(3, n+1, 2):
+        numArr.append(num)
+    print("Sieve generated.")
+    # Ticker
+    sieveSize = len(numArr)
+    print("Sieve size :"),
+    print(sieveSize)
 
     # Generate the non-primes
-    for num in numArr:
-        if num not in notPrimes:
-            primeArr.append(num)
+    index = 1
+    num = numArr[index]
+    while num != numArr[-1]:
 
-            for j in xrange(num*2-2, len(numArr), num):
-                notPrimes.append(numArr[j])
+        # Ticker
+        if len(numArr) < sieveSize // 2:
+            sieveSize = len(numArr)
+            print("Sieve has been reduced by half to"),
+            print(sieveSize)
 
-    return primeArr
+        for j in range(num**2, n+1, num * 2):
+            if j in numArr:
+                numArr.remove(j)
+        index += 1
+        num = numArr[index]
+
+    print(len(numArr)),
+    print("primes generated.")
+    return numArr
 
 # Update a prime array up to n, inclusive
 def updatePrimeArr(n, primeArr):
@@ -50,8 +67,25 @@ def getDivs(n):
 
             maxF = n / x
 
-    output = sorted(output)
+    output = sorted(list(set(output)))
     return output
+
+# Return a list of permutations of a list
+def permute(arr):
+    # Recursive?  Recursive.
+    # Base case
+    if len(arr) <= 1:
+        return [arr]
+
+    perms = []
+    for elem in arr:
+        reducedArr = list(arr)
+        reducedArr.remove(elem)
+
+        for perm in permute(reducedArr):
+            perms.append([str(elem)] + perm)
+
+    return perms
 
 if __name__ == "__main__":
     primeArr = getPrimeArr(25)
@@ -65,3 +99,4 @@ if __name__ == "__main__":
     factors = getDivs(24)
     print("Factors of 24 : "),
     print(factors)
+
