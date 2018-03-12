@@ -17,13 +17,9 @@ Find the sum of all products whose multiplicand/multiplier/product identity
 can be written as a 1 through 9 pandigital.
 
 """
-import sys
-sys.path.append('../utils')
-import utils
-import math
 
 def main():
-    output = 0
+
     limit = 9876 # The largest an multiplicand can be
 
     check = ['1','2','3','4','5','6','7','8','9']
