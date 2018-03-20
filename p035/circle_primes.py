@@ -23,23 +23,36 @@ def main():
 
     print("Generating primes ...")
     # This line takes a LONG time ...
-    primeArr = utils.getPrimeArr(999999)
+    primeArr = utils.getPrimeArr(99)
+    primeIndex = 0
     print("Primes generated.")
 
     count = 0
 
-    # Iterate through and check permutations.
-    for num in primeArr:
-        # This line takes long time.
-        num_perms = utils.permute([x for x in str(num)])
-        # Then check all of the perms
-        for perm in num_perms:
-            perm = int(''.join(perm))
-            if perm not in primeArr:
-                break
-        else:
-            count += 1
+    # Calculate all 3 digit primes:
+    for i in range(1,6):
+        # Iterate through and check permutations.
+        for num in primeArr[primeIndex:]:
+            # This line takes long time.
+            num_perms = rotate(str(num))
+            # Then check all of the perms
+            if len(list(set(primeArr[primeIndex:]) & set(num_perms))) == \
+                    len(num_perms):
+                count += 1
+        print "Completed:", 100 * 10 ** (i-1)
+        # Update the primeArr to all 4 digit numbers
+        primeIndex = len(primeArr)-1 # Skip these
+        if 100 * 10 ** i > 1000000:
+            break
+        primeArr = utils.updatePrimeArr(100 * 10 ** i, primeArr)
+        print "Prime array updated."
     print(count)
+
+def rotate(s):
+    output = []
+    for i in range(1,len(s)):
+        output.append(int(s[i:] + s[:i]))
+    return output
 
 if __name__ == "__main__":
     main()
