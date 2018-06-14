@@ -10,8 +10,8 @@ import math
 def getPrimeArr(n):
 
     # Sieve of Eratosthenes
-    numArr =[2]
-    for num in range(3, n+1, 2):
+    numArr =[2,3]
+    for num in range(5, n+1, 2):
         numArr.append(num)
     print("Sieve generated.")
     # Ticker
