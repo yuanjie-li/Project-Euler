@@ -27,15 +27,36 @@ the concatenated product of an integer with (1,2, ... , n) where n > 1?
 import sys
 sys.path.append('../utils')
 import utils
+import collections
+
+def no_duplicates(coldict):
+    keys = coldict.keys()
+    if sorted(keys) == ['1','2','3','4','5','6','7','8','9']:
+        return True
+    return False
 
 def main():
-    pan = set(list('123456789'))
-    best = 123456789 # The minimum
+    best = 0 # The minimum
 
     # More than 4 digits and it won't work.
     for i in range(1,9999):
-        for n in range(1,6):
+        cur_dig = ""
+        for n in range(1,99):
+            cur_dig += str(i*n)
 
+            if (len(cur_dig) > 9):
+                continue
+
+            # Check 1-9, no duplicates.
+            coldict = collections.Counter(cur_dig)
+            if no_duplicates(coldict) and\
+                    len(cur_dig) == 9 and\
+                    "0" not in cur_dig and\
+                    int(cur_dig) > best:
+
+                        best = int(cur_dig)
+
+    print("Best is: " + str(best))
 
 if __name__ == "__main__":
     main()
