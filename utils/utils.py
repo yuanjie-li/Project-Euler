@@ -87,6 +87,25 @@ def permute(arr):
 
     return perms
 
+# Get all prime factors.
+def getPrimeFactors(n, primeArr=None):
+    # Takes prime array to reduce compute.
+    if primeArr is None:
+        primeArr = getPrimeArr(n)
+
+    if n in primeArr:
+        return [n]
+
+    index = 0
+    output = []
+    while primeArr[index] <= n:
+        if n % primeArr[index] == 0:
+            output.append(primeArr[index])
+            n /= primeArr[index]
+        else:
+            index += 1
+    return output
+
 if __name__ == "__main__":
     primeArr = getPrimeArr(25)
     print("Primes up to 25 : "),
@@ -99,4 +118,8 @@ if __name__ == "__main__":
     factors = getDivs(24)
     print("Factors of 24 : "),
     print(factors)
+
+    primefacs = getPrimeFactors(20)
+    print("Primes factors of 20 : "),
+    print(primefacs)
 
